@@ -73,7 +73,5 @@ jobs:
       - name: Upload coverage reports
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: npx codecov
-        env: 
+        env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        
-
