@@ -2,9 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [develop]
+    branches: [develop, main]
   push:
-    branches: [develop]
+    branches: [develop, main]
 
 jobs:
   build:
@@ -36,11 +36,20 @@ jobs:
           name: code-coverage
           path: coverage
 
-      - name: Build and deploy
+      - name: Build
         if: github.event_name == 'push'
-        run: |
-          yarn build
-          npx surge --project ./build --domain short-rice.surge.sh
+        run: yarn build
+
+      - name: Create a release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: yarn semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy  
+        if: github.event_name == 'push'
+        run: npx surge --project ./build --domain short-rice.surge.sh
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+
