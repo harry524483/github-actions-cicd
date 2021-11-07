@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Install and format check
+        run: |
+          yarn install
+          yarn format:check
+
+      - name: Run unit test
+        run: yarn test -- --coverage
+        env:
+          CI: true
