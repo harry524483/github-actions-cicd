@@ -3,6 +3,8 @@ name: CI
 on:
   pull_request:
     branches: [develop]
+  push:
+    branches: [develop]
 
 jobs:
   build:
@@ -16,7 +18,7 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install and format check
+      - name: Install and check code format
         run: |
           yarn install
           yarn format:check
@@ -25,3 +27,12 @@ jobs:
         run: yarn test -- --coverage
         env:
           CI: true
+
+      - name: Build and deploy
+        if: github.event_name == 'push'
+        run: |
+          yarn build
+          npx surge --project ./build --domain short-rice.surge.sh
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
