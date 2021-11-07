@@ -22,7 +22,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write '**/*.{ts,tsx,yml,yaml,json,css}'",
-    "format:check": "prettier --check '**/*.{ts,tsx,yml,yaml,json,css}'"
+    "format:check": "prettier --check '**/*.{ts,tsx,yml,yaml,json,css}'",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -43,7 +44,22 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^14.1.0",
+    "@commitlint/config-conventional": "^14.1.0",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "3.3.0",
+    "husky": "^7.0.4",
     "prettier": "^2.4.1",
     "semantic-release": "^18.0.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
