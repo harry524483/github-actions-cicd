@@ -61,10 +61,5 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn format:check"
-    }
   }
 }

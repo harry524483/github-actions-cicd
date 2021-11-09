@@ -1,6 +1,6 @@
 name: Notify on release
 
-on: 
+on:
   release:
     types: [published]
 
