@@ -1,0 +1,21 @@
+name: Notify on release and issue
+
+on:
+  release:
+    types: [published]
+  issues:
+    types: [opened]
+
+jobs:
+  slack-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: release slack message
+        if: github.event_name == 'release'
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"New release ${{ github.event.release.tag_name }} is out, <${{ github.event.release.html_url }}|check it out now>"}' ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: issue slack message
+        if: github.event_name == 'issues'
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"New issue created <${{ github.event.issue.html_url }}| ${{ github.event.issue.title }}>"}' ${{ secrets.SLACK_WEBHOOK }}
