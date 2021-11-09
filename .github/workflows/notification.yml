@@ -9,7 +9,10 @@ on:
 jobs:
   slack-message:
     runs-on: ubuntu-latest
+
     steps:
+      - run: echo ${{ github.event_name }}
+
       - name: release slack message
         if: github.event_name == 'release'
         run: |
