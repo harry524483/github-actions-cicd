@@ -1,0 +1,30 @@
+name: Custom
+
+on:
+  push:
+    branches:
+      - action-workflow
+
+jobs:
+  custom-action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: yarn install
+
+      - uses: ./.github/actions/issue
+        id: issue
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: Issue title
+          body: issue body
+          assignees: |
+            harry524483
+            hari524483
+      - run: echo "Issue ${{ steps.issue.outputs.issue }}"
+      - uses: ./.github/actions/hello
+        id: hello
+        with:
+          who-to-greet: 'World'
+      - run: echo "Time ${{ steps.hello.outputs.time }}"
