@@ -1,4 +1,4 @@
-name: Custom action
+name: Custom
 
 on:
   push:
